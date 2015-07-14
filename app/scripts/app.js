@@ -15,7 +15,8 @@ angular
     'ngCookies',
     'ngResource',
     'ngRoute',
-    'ngTouch'
+    'ngTouch',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -32,4 +33,5 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  }  );
+  

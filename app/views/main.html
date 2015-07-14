@@ -1,12 +1,19 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
+<div ng-controller="MainCtrl">
+    <p>
+    <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
+    <button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
   </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
-
+<accordion close-others='true'>
+    
+    
+    <accordion-group ng-repeat="group in groups" >
+        <accordion-heading>
+            <i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>&nbsp {{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="test()"></i>
+        </accordion-heading>
+         {{group.content}}
+    </accordion-group>
+    
+    </accordion>
 <div class="row marketing">
   <h4>HTML5 Boilerplate</h4>
   <p>
