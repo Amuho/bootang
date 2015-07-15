@@ -3,14 +3,16 @@
     <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
     <button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
   </p>
-<accordion close-others='true'>
+<accordion close-others='false'>
     
     
-    <accordion-group ng-repeat="group in groups" >
+    <accordion-group  ng-repeat="group in groups" ng-init="status = { isOpen: false, isNotOpen : true }" is-open="status.isOpen" >
+       
         <accordion-heading>
-            <i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>&nbsp {{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="test()"></i>
+            <i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': status.isOpen, 'glyphicon-chevron-right': !status.isOpen }"></i>&nbsp isOpen:{{status.isOpen}}, &nbsp NOT isOpen:{{!status.isOpen}}, {{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="test()"></i>
         </accordion-heading>
-         {{group.content}}
+         isOpen:{{status.isOpen}}, &nbsp NOT isOpen:{{!status.isOpen}}, &nbsp{{group.content}}
+         
     </accordion-group>
     
     </accordion>
