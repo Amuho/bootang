@@ -1,33 +1,20 @@
-<div ng-controller="MainCtrl">
+<div class="mycontainer" ng-controller="MainCtrl">
     <p>
-    <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
-    <button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
+    <button class="btn btn-default btn-sm" ng-click="collapseAll()">Collapse all</button>
+     <button class="btn btn-default btn-sm" ng-click="expandAll()">Expand all</button>
   </p>
 <accordion close-others='false'>
     
     
-    <accordion-group  ng-repeat="group in groups" ng-init="status = { isOpen: false, isNotOpen : true }" is-open="status.isOpen" >
+    <accordion-group    is-open="group.isOpen" ng-repeat="group in groups">
        
         <accordion-heading>
-            <i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': status.isOpen, 'glyphicon-chevron-right': !status.isOpen }"></i>&nbsp isOpen:{{status.isOpen}}, &nbsp NOT isOpen:{{!status.isOpen}}, {{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="test()"></i>
+            <i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen }"></i>{{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="delete($index)"></i>
         </accordion-heading>
-         isOpen:{{status.isOpen}}, &nbsp NOT isOpen:{{!status.isOpen}}, &nbsp{{group.content}}
+        <H1>test of</H1>just for fun &nbsp<div ng-bind-html="group.content"/>
          
     </accordion-group>
     
     </accordion>
-<div class="row marketing">
-    
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
 </div>
+
