@@ -67,11 +67,8 @@ angular.module('bootangApp')
             $scope.collapseAll = function () {
 
                 for (var i = 0; i < $scope.groups.length; i++) {
-//                      if($scope.groups[i].isOpen){
-//                        console.log(' group element ' + i + ' is open ' + $scope.groups[i].isOpen);
+                  
                     $scope.groups[i].isOpen = false;
-                    console.log('==> collapseAll group element ' + i + ' is open ' + $scope.groups[i].isOpen);
-//                    }
 
                 }
             };
@@ -79,11 +76,8 @@ angular.module('bootangApp')
             $scope.expandAll = function () {
                 var tempgroups = $scope.groups;
                 for (var i = 0; i < $scope.groups.length; i++) {
-//                      if($scope.groups[i].isOpen){
-//                        console.log(' group element ' + i + ' is open ' + $scope.groups[i].isOpen);
+
                     tempgroups[i].isOpen = true;
-                    console.log('==> expandAll group element ' + i + ' is open ' + $scope.groups[i].isOpen);
-//                    }
 
                 }
                 $scope.groups = tempgroups;
