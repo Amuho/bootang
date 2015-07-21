@@ -1,30 +1,34 @@
 <div class="container-fluid" ng-controller="MainCtrl">
-   
-
-    <div class="btn-group">
-        
    <p>
-    <span class="btn-group pull-left">
-        <button class="btn btn-primary btn-sm" ng-click="collapseAll()">Messages & Notes</button>
-         <button class="btn btn-primary btn-sm" ng-click="expandAll()">Password generation</button>
-    </span>
-     </div> 
-    <span class="btn-group pull-right">
-        <button class="btn btn-default btn-sm" ng-click="collapseAll()">Collapse all</button>
-        <button class="btn btn-default btn-sm" ng-click="expandAll()">Expand all</button>
-    </span>
-    </p> 
+    <div class="row">
+         
+        <span class="btn-group pull-left">
+         <button class="btn btn-primary btn-sm"  ng-hide="status.messagesAndPasswordsButtonsHidden" ng-click="collapseAll()">Messages & Notes</button>
+         <button class="btn btn-primary btn-sm" ng-hide="status.messagesAndPasswordsButtonsHidden" ng-click="expandAll()">Password generation</button>
+         </span>
+        
+      
+        <span class="btn-group pull-right">
+        
+        
+         <button class="btn btn-default btn-sm" ng-hide="status.collapseAllButtonHidden" ng-click="collapseAll()">Collapse all</button>
+         <button class="btn btn-default btn-sm" ng-hide="status.expandAllButtonHidden"  ng-click="expandAll()" >Expand all</button>
+        </span>
+    
+    </div> 
+   </p> 
+    <div class="row">
     <accordion close-others='false'>
     <accordion-group    is-open="group.isOpen" ng-repeat="group in groups">
        
         <accordion-heading>
-            <i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen }"></i>&nbsp{{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="delete($index)"></i>
+            <span ng-click="headerClicked($index)"><i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen }"></i>&nbsp{{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="delete($index)"></i></span>
         </accordion-heading>
-        <H1>test of</H1>just for fun &nbsp<div ng-bind-html="group.content"/>
+         <div ng-bind-html="group.content"/>
          
     </accordion-group>
     
     </accordion>
-    
+    </div> 
 </div>
 

@@ -15,6 +15,47 @@ angular.module('bootangApp')
                 'AngularJS',
                 'Karma'
             ];
+           
+            $scope.headerClicked = function ($index) {
+                //reversed order because headerClicked is called before isOpen value is chanded
+                //so when $scope.groups[$index].isOpen === true  means that the user's intention is to close 
+                //so when $scope.groups[$index].isOpen === false means that the user's intention is to open
+                $scope.status.messagesAndPasswordsButtonsHidden = !$scope.status.messagesAndPasswordsButtonsHidden;
+                $scope.checkButtons($scope.groups[$index].isOpen);
+//                if($scope.groups[$index].isOpen){
+//                    console.log('headerClicked ' + $index + ' open!!! ');
+//                    $scope.checkButtons($scope.groups[$index].isOpen);
+//                }else{
+//                    console.log('headerClicked ' + $index + ' closed!!! ');
+//                }
+            };
+            
+            $scope.checkButtons = function(intentionToClose){
+                console.log('checkButtons ==================> ' + intentionToClose);
+                if(intentionToClose){
+                    var isOneOpen = false;
+                    for (var i = 0; i < $scope.groups.length && !isOneOpen; i++) {
+
+                       if($scope.groups[i].isOpen){
+                           isOneOpen = true;
+                       }
+
+                    }
+                    if(isOneOpen){
+                        $scope.status.collapseAllButtonHidden = false;
+                        console.log('$scope.checkButtons intentionToClose true should be false  ' + $scope.collapseAllButtonHidden);
+                    }else{
+                        $scope.status.collapseAllButtonHidden = true;
+                        console.log('$scope.checkButtons should be true  ' + $scope.collapseAllButtonHidden);
+                    }
+                }else{
+                    $scope.status.collapseAllButtonHidden = false;
+                    $scope.status.expandAllButtonHidden = false;
+                        console.log('$scope.checkButtons intentionToClose false should be true  ' + $scope.collapseAllButtonHidden);
+                }
+                
+            };
+            
             $scope.delete = function ($index) {
 
                 $scope.groups[$index].isOpen = false;
@@ -29,6 +70,7 @@ angular.module('bootangApp')
 
             };
 
+           
 
 
             var test1 = '<a href=\"http://twitter.com\">Twitter</a>';
@@ -67,10 +109,11 @@ angular.module('bootangApp')
             $scope.collapseAll = function () {
 
                 for (var i = 0; i < $scope.groups.length; i++) {
-                  
+
                     $scope.groups[i].isOpen = false;
 
                 }
+                $scope.status.collapseAllButtonHidden = true;
             };
 
             $scope.expandAll = function () {
@@ -81,6 +124,13 @@ angular.module('bootangApp')
 
                 }
                 $scope.groups = tempgroups;
+                $scope.status.collapseAllButtonHidden = false;
+            };
+            
+            $scope.status = {
+                messagesAndPasswordsButtonsHidden: true,
+                collapseAllButtonHidden: false,
+                expandAllButtonHidden: false
             };
 
 
