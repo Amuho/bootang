@@ -1,11 +1,12 @@
 <script type="text/ng-template" id="customTemplate.html">
-  
+  <a>
+      <img ng-src="{{match.model.flag}}" width="80">
+      <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+  </a>
 </script>
 <div class="container-fluid" ng-controller="MainCtrl">
     <div class="row" >
-        <h4>Asynchronous results</h4>
-    <pre>Model: {{asyncSelected | json}}</pre>
-    <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" typeahead="address for address in getAutoComplete($viewValue)" typeahead-loading="loadingLocations" class="form-control">
+    <input type="text" ng-model="customSelected" placeholder="Type to get Wikipedia article" typeahead="address.name for address in getAutoComplete($viewValue)" typeahead-loading="loadingLocations" typeahead-template-url="customTemplate.html" class="form-control">
     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 </div>
    <p>

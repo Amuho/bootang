@@ -192,15 +192,18 @@ angular.module('bootangApp')
                   
                 }).then(function (response) {
                      var json = response['data']['query']['pages'];
-                    var result = [[]];
-                    var counter = 0;
+                    var result = [];
                     for (var key in json) {
-                         result[counter]= [];
-                         result[counter].push(json[key].title);
+                          var pairObject;
                          if(json[key].thumbnail!=null){
-                              result[counter].push(json[key].thumbnail.source);
+                             
+                             pairObject = {'name':json[key].title ,'flag': json[key].thumbnail.source };
+                              
+                         }else{
+                             pairObject = {'name':json[key].title ,'flag': 'images/whitespace.png' };
                          }
-                         counter++;
+                        
+                         result.push(pairObject);
                     }
                     return result;
                 });
