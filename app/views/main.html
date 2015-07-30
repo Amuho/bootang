@@ -3,10 +3,22 @@
       <img ng-src="{{match.model.flag}}" width="80">
       <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
   </a>
+  
 </script>
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h4 class="modal-title">{{ items[0][0] }}</h3>
+        </div>
+        <div class="modal-body">
+            <h5 class="modal-title"> {{ items[0][1] }}</h3>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
 <div class="container-fluid" ng-controller="MainCtrl">
     <div class="row" >
-    <input type="text" ng-model="customSelected" placeholder="Type to get Wikipedia article" typeahead="address.name for address in getAutoComplete($viewValue)" typeahead-loading="loadingLocations" typeahead-template-url="customTemplate.html" class="form-control">
+    <input type="text" ng-model="customSelected" placeholder="Type to get Wikipedia article" typeahead="address.name for address in getAutoComplete($viewValue)" typeahead-on-select='onSelect($item, $model, $label)' typeahead-loading="loadingLocations" typeahead-template-url="customTemplate.html" class="form-control">
     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 </div>
    <p>
@@ -34,11 +46,13 @@
         <accordion-heading>
             <span ng-click="headerClicked($index)"><i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen }"></i>&nbsp{{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="delete($index)"></i></span>
         </accordion-heading>
-         <div ng-bind-html="group.content"/>
+        <div ng-bind-html="group.content"/>
+         
          
     </accordion-group>
     
     </accordion>
     </div> 
+    
 </div>
 
