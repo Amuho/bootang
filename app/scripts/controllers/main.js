@@ -15,16 +15,73 @@ angular.module('bootangApp')
                 'AngularJS',
                 'Karma'
             ];
-          
+            $scope.selections = [ '7', '1 minute'];
+             $scope.selections = [ '7', '1 minute'];
+
+            $scope.wikiArticles = [];
+            $scope.items = [[ 'This article has been already added!',   'Sorry, certain wiki aricle should not be repeated to generate password or exchange messages' ]];
+            $scope.tabs = [{'id': 'readMessages',  'title': 'Read messages', 'label': 'label label-default', 'disable': true, 'resultAsText':'' }, 
+                           {'id': 'leaveMessage',  'title': 'Leave Message', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },
+                           {'id': 'generatePassword',  'title': 'Generate password', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },  
+                           {'id': 'wikiArticleSelection',  'title': 'Wiki article(s)', 'label': 'label label-primary', 'disable': false, 'resultAsText':'' }
+                          ];
+            
+            $scope.visiblityOptionsMessages = [
+                '4 weeks',
+                '1 week',
+                '1 day',
+                '1 hour',
+                '30 minutes',
+                '15 minutes',
+                '5 minutes', 
+                '1 minute'
+                
+            ];
+            $scope.visiblityOptions = [
+                {'message':'4 weeks', 'minutes': 40320},
+                {'message':'1 week', 'minutes': 10080},
+                {'message':'1 day', 'minutes': 1440},
+                {'message':'1 hour', 'minutes': 60},
+                {'message':'30 minutes', 'minutes': 30},
+                {'message': '15 minutes', 'minutes': 15},
+                {'message': '5 minutes', 'minutes': 5},
+                {'message': '1 minute', 'minutes': 1}
+            ];
+            
+             $scope.vos = [
+                {'id': '0', 'message':'*4 weeks', 'minutes': 40320},
+                {'id': '1', 'message':'*1 week', 'minutes': 10080},
+                {'id': '2', 'message':'*1 day', 'minutes': 1440},
+                {'id': '3', 'message':'1 hour', 'minutes': 60},
+                {'id': '4', 'message':'30 minutes', 'minutes': 30},
+                {'id': '5', 'message': '15 minutes', 'minutes': 15},
+                {'id': '6', 'message': '5 minutes', 'minutes': 5},
+                {'id': '7', 'message': '1 minute', 'minutes': 1}
+            ];
+            $scope.visiblityOptions = [
+               '*4 weeks',
+               '1 week', 
+                '1 day',
+                '1 hour', 
+               '30 minutes', 
+                '15 minutes', 
+               '5 minutes', 
+               '1 minute',
+            ];
+            $scope.visiblityOption = 2
+            $scope.selectedvisiblityOption =  '1 day';
+            $scope.visiblityOption = 2
+            $scope.selectedvisiblityOptions =  '1 day';
+            $scope.selectedvisiblityOptions =  2;
+            
             $scope.headerClicked = function ($index) {
-//                $scope.status.messagesAndPasswordsButtonsHidden = !$scope.status.messagesAndPasswordsButtonsHidden;
-                $scope.checkButtons($scope.groups[$index].isOpen);
+                $scope.checkButtons($scope.wikiArticles[$index].isOpen);
             };
             
             $scope.refreshGroupAfterAddingNewArticle = function () {
-                for (var i = 0; i < $scope.groups.length - 1; i++) {
+                for (var i = 0; i < $scope.wikiArticles.length - 1; i++) {
 
-                    $scope.groups[i].isOpen = false;
+                    $scope.wikiArticles[i].isOpen = false;
 
                 }
                  $scope.status.collapseAllButtonHidden = false;
@@ -33,9 +90,9 @@ angular.module('bootangApp')
             
             $scope.checkIfArticleIsAlreadyAdded = function(query) {
                 var result = false;
-                 for (var i = 0; i < $scope.groups.length && !result; i++) {
+                 for (var i = 0; i < $scope.wikiArticles.length && !result; i++) {
 
-                        if ($scope.groups[i].id===query) {
+                        if ($scope.wikiArticles[i].id===query) {
                             result = true;
                         }
 
@@ -101,22 +158,55 @@ angular.module('bootangApp')
                     json = $scope.corectAllHrefs(json);
                     var content = $sce.trustAsHtml( '<div>' + json + '</div>');
                     var wikiArticleObject = {'title': $model, id:query,  isOpen: true, content: content };
-                    $scope.groups.push(wikiArticleObject);
+                    $scope.wikiArticles.push(wikiArticleObject);
                     $scope.refreshGroupAfterAddingNewArticle();
-//                    
+                    $scope.activateFeatureTabs();
+                    $scope.tabs[3].resultAsText = ': ' + $scope.wikiArticles.length;
+
                 });
               }else{
                    $scope.createModalAlert(['This article is already added!', 'Sorry certain article may be used only once.'], 'sm');
               }
             };
-            
+            $scope.activateFeatureTabs = function(){
+                $scope.tabs[0].disable = false;
+                $scope.tabs[1].disable = false;
+                $scope.tabs[2].disable = false;
+                $scope.tabs[0].label = 'label label-info';
+                $scope.tabs[1].label = 'label label-info';
+                $scope.tabs[2].label = 'label label-info';
+                
+            };
+            $scope.deactivateFeatureTabs = function(){ $scope.tabs[0].title = '';
+                $scope.tabs[0].disable = true;
+                $scope.tabs[1].disable = true;
+                $scope.tabs[2].disable = true;
+                $scope.tabs[0].label = 'label label-default';
+                $scope.tabs[1].label = 'label label-default';
+                $scope.tabs[2].label = 'label label-default';
+                
+            };
+             $scope.selectMe = function(tabNumber){ 
+                $scope.tabs[tabNumber].label = 'label label-primary';
+                for(var i = 0; i < $scope.tabs.length; i++){
+                    if(i!==tabNumber){
+                        if($scope.tabs[i].disable==false){
+                         $scope.tabs[i].label = 'label label-info';
+                     }else{
+                         $scope.tabs[i].label = 'label label-default';
+
+                     }
+                    }
+                }
+                
+            };
             $scope.checkButtons = function (intentionToClose) {
                 console.log('checkButtons ==================> ' + intentionToClose);
                 if (intentionToClose) {
                     var isOneOpen = false;
-                    for (var i = 0; i < $scope.groups.length && !isOneOpen; i++) {
+                    for (var i = 0; i < $scope.wikiArticles.length && !isOneOpen; i++) {
 
-                        if ($scope.groups[i].isOpen) {
+                        if ($scope.wikiArticles[i].isOpen) {
                             isOneOpen = true;
                             break;
                         }
@@ -139,50 +229,49 @@ angular.module('bootangApp')
 
             $scope.delete = function ($index) {
 
-                $scope.groups[$index].isOpen = false;
+                $scope.wikiArticles[$index].isOpen = false;
                 var tempArray = [];
-                for (var i = 0; i < $scope.groups.length; i++) {
+                for (var i = 0; i < $scope.wikiArticles.length; i++) {
                     if ($index !== i) {
-                        tempArray.push($scope.groups[i]);
+                        tempArray.push($scope.wikiArticles[i]);
                     }
 
                 }
-                $scope.groups = tempArray;
-                if ($scope.groups.length === 0) {
+                $scope.wikiArticles = tempArray;
+                $scope.tabs[3].resultAsText = ': ' + $scope.wikiArticles.length;
+                if ($scope.wikiArticles.length === 0) {
                     $scope.status.collapseAllButtonHidden = true;
                     $scope.status.expandAllButtonHidden = true;
-                    $scope.status.messagesAndPasswordsButtonsHidden = true;
+                    $scope.deactivateFeatureTabs();
+                     $cope.tabs[3].resultAsText = '';
                 }
 
             };
 
 
-            $scope.groups = [];
-            $scope.items = [[ 'This article has been already added!',   'Sorry, certain wiki aricle should not be repeated to generate password or exchange messages' ]];
-            
+           
             $scope.collapseAll = function () {
 
-                for (var i = 0; i < $scope.groups.length; i++) {
+                for (var i = 0; i < $scope.wikiArticles.length; i++) {
 
-                    $scope.groups[i].isOpen = false;
+                    $scope.wikiArticles[i].isOpen = false;
 
                 }
                 $scope.status.collapseAllButtonHidden = true;
             };
 
             $scope.expandAll = function () {
-                var tempgroups = $scope.groups;
-                for (var i = 0; i < $scope.groups.length; i++) {
+                var tempwikiArticles = $scope.wikiArticles;
+                for (var i = 0; i < $scope.wikiArticles.length; i++) {
 
-                    tempgroups[i].isOpen = true;
+                    tempwikiArticles[i].isOpen = true;
 
                 }
-                $scope.groups = tempgroups;
+                $scope.wikiArticles = tempwikiArticles;
                 $scope.status.collapseAllButtonHidden = false;
             };
 
             $scope.status = {
-                messagesAndPasswordsButtonsHidden: true,
                 collapseAllButtonHidden: true,
                 expandAllButtonHidden: true
             };

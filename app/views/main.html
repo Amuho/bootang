@@ -1,58 +1,82 @@
 <script type="text/ng-template" id="customTemplate.html">
-  <a>
-      <img ng-src="{{match.model.flag}}" width="80">
-      <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
-  </a>
-  
+   <a>
+   <img ng-src="{{match.model.flag}}" width="80">
+   <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+   </a>
+   
 </script>
 <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h4 class="modal-title">{{ items[0][0] }}</h3>
-        </div>
-        <div class="modal-body">
-            <h5 class="modal-title"> {{ items[0][1] }}</h3>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+   <div class="modal-header">
+       <h4 class="modal-title">{{ items[0][0] }}</h3>
+   </div>
+   <div class="modal-body">
+       <h5 class="modal-title"> {{ items[0][1] }}</h3>
+   </div>
+   <div class="modal-footer">
+       <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+   </div>
+</script>
+<!--<div class="bg-info">-->
 <div class="container-fluid" ng-controller="MainCtrl">
-    <div class="row" >
-    <input type="text" ng-model="customSelected" placeholder="Type to get Wikipedia article" typeahead="address.name for address in getAutoComplete($viewValue)" typeahead-on-select='onSelect($item, $model, $label)' typeahead-loading="loadingLocations" typeahead-template-url="customTemplate.html" class="form-control">
-    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-</div>
-   <p>
-    <div class="row">
-         
-        <span class="btn-group pull-left">
-         <button class="btn btn-primary btn-sm"  ng-hide="status.messagesAndPasswordsButtonsHidden" ng-click="collapseAll()">Messages & Notes</button>
-         <button class="btn btn-primary btn-sm" ng-hide="status.messagesAndPasswordsButtonsHidden" ng-click="expandAll()">Password generation</button>
-         </span>
-        
-      
-        <span class="btn-group pull-right">
-        
-        
+<tabset>
+   <tab disable=tabs[0].disable select="selectMe(0)">
+      <tab-heading >
+         <span ng-class="tabs[0].label">{{tabs[0].title}}{{tabs[0].resultAsText}}</span>
+      </tab-heading>
+      <p></p>
+      I've got an HTML heading, and a select callback. Pretty cool!
+   </tab>
+   <tab disable=tabs[1].disable select="selectMe(1)">
+      <tab-heading >
+         <span ng-class="tabs[1].label">{{tabs[1].title}}</span>
+      </tab-heading>
+      <p></p>
+      <div class="row">
+         <div class="col-xs-6">
+            Message will be available for: :
+            <select class="form-control" ng-model="selections[0]" ng-options="i.id as i.message for i in vos">"></select>
+         </div>
+         <div class="col-xs-6">
+            Message may be read following number of times: 
+            <select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+         </div>
+      </div>
+   </tab>
+   <tab disable=tabs[2].disable select="selectMe(2)">
+      <tab-heading >
+         <span ng-class="tabs[2].label">{{tabs[2].title}}</span>
+      </tab-heading>
+      <p></p>
+      I've got an HTML heading, and a select callback. Pretty cool!
+   </tab>
+   <tab active="true" disable=tabs[3].disable select="selectMe(3)">
+      <tab-heading >
+         <span ng-class="tabs[3].label">{{tabs[3].title}}{{tabs[3].resultAsText}}</span>
+      </tab-heading>
+      <p></p>
+      <div class="row" >
+         <input type="text" ng-model="customSelected" placeholder="Type to get Wikipedia article" typeahead="address.name for address in getAutoComplete($viewValue)" typeahead-on-select='onSelect($item, $model, $label)' typeahead-loading="loadingLocations" typeahead-template-url="customTemplate.html" class="form-control">
+         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+      </div>
+      <p> </p>
+      <div class="row">
+         <span class="btn-group pull-right">
          <button class="btn btn-default btn-sm" ng-hide="status.collapseAllButtonHidden" ng-click="collapseAll()">Collapse all</button>
          <button class="btn btn-default btn-sm" ng-hide="status.expandAllButtonHidden"  ng-click="expandAll()" >Expand all</button>
-        </span>
-    
-    </div> 
-   </p> 
-    <div class="row">
-    <accordion close-others='false'>
-    <accordion-group    is-open="group.isOpen" ng-repeat="group in groups">
-       
-        <accordion-heading>
-            <span ng-click="headerClicked($index)"><i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen }"></i>&nbsp{{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="delete($index)"></i></span>
-        </accordion-heading>
-        <div ng-bind-html="group.content"/>
-         
-         
-    </accordion-group>
-    
-    </accordion>
-    </div> 
-    
+         </span>
+      </div>
+      <p> </p>
+      <div class="row">
+      <accordion close-others='false'>
+         <accordion-group    is-open="group.isOpen" ng-repeat="group in wikiArticles">
+            <accordion-heading>
+               <span ng-click="headerClicked($index)"><i class="pull-left glyphicon" ng-class="{ 'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen }"></i>&nbsp{{group.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-remove': true}" ng-click="delete($index)"></i></span>
+            </accordion-heading>
+            <div ng-bind-html="group.content"/>
+         </accordion-group>
+      </accordion>
+      <div>
+   </tab>
+</tabset>
+<!--</div>-->
 </div>
-
