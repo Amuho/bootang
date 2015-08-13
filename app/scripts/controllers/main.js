@@ -15,64 +15,38 @@ angular.module('bootangApp')
                 'AngularJS',
                 'Karma'
             ];
-            $scope.selections = [ '7', '1 minute'];
-             $scope.selections = [ '7', '1 minute'];
+            $scope.selections = [ '3', '0' ];
+           
 
             $scope.wikiArticles = [];
             $scope.items = [[ 'This article has been already added!',   'Sorry, certain wiki aricle should not be repeated to generate password or exchange messages' ]];
             $scope.tabs = [{'id': 'readMessages',  'title': 'Read messages', 'label': 'label label-default', 'disable': true, 'resultAsText':'' }, 
                            {'id': 'leaveMessage',  'title': 'Leave Message', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },
                            {'id': 'generatePassword',  'title': 'Generate password', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },  
-                           {'id': 'wikiArticleSelection',  'title': 'Wiki article(s)', 'label': 'label label-primary', 'disable': false, 'resultAsText':'' }
+                           {'id': 'wikiArticleSelection',  'title': 'Wiki article(s)', 'label': 'label label-info', 'disable': false, 'resultAsText':'' }
                           ];
             
-            $scope.visiblityOptionsMessages = [
-                '4 weeks',
-                '1 week',
-                '1 day',
-                '1 hour',
-                '30 minutes',
-                '15 minutes',
-                '5 minutes', 
-                '1 minute'
-                
-            ];
-            $scope.visiblityOptions = [
-                {'message':'4 weeks', 'minutes': 40320},
-                {'message':'1 week', 'minutes': 10080},
-                {'message':'1 day', 'minutes': 1440},
-                {'message':'1 hour', 'minutes': 60},
-                {'message':'30 minutes', 'minutes': 30},
-                {'message': '15 minutes', 'minutes': 15},
-                {'message': '5 minutes', 'minutes': 5},
-                {'message': '1 minute', 'minutes': 1}
-            ];
+          
             
-             $scope.vos = [
-                {'id': '0', 'message':'*4 weeks', 'minutes': 40320},
-                {'id': '1', 'message':'*1 week', 'minutes': 10080},
-                {'id': '2', 'message':'*1 day', 'minutes': 1440},
-                {'id': '3', 'message':'1 hour', 'minutes': 60},
-                {'id': '4', 'message':'30 minutes', 'minutes': 30},
-                {'id': '5', 'message': '15 minutes', 'minutes': 15},
-                {'id': '6', 'message': '5 minutes', 'minutes': 5},
-                {'id': '7', 'message': '1 minute', 'minutes': 1}
+            $scope.vos = [
+                {'id': '0', 'message':'4 weeks', 'minutes': 40320},//0
+                {'id': '1', 'message':'1 week', 'minutes': 10080},//1
+                {'id': '2', 'message':'1 day', 'minutes': 1440},//2
+                {'id': '3', 'message':'1 hour', 'minutes': 60},//3
+                {'id': '4', 'message':'30 minutes', 'minutes': 30},//4
+                {'id': '5', 'message': '15 minutes', 'minutes': 15},//5
+                {'id': '6', 'message': '5 minutes', 'minutes': 5},//6
+                {'id': '7', 'message': '1 minute', 'minutes': 1}//7
             ];
-            $scope.visiblityOptions = [
-               '*4 weeks',
-               '1 week', 
-                '1 day',
-                '1 hour', 
-               '30 minutes', 
-                '15 minutes', 
-               '5 minutes', 
-               '1 minute',
+            //allowed number of reads
+            $scope.anors = [
+                {'id': '0', 'message':'Unlimited number of times', 'minutes': 0},//0
+                {'id': '1', 'message':'10 times', 'minutes': 10},//1
+                {'id': '2', 'message':'2 times', 'minutes': 2},//2
+                {'id': '3', 'message':'1 time', 'minutes': 1}//3
             ];
-            $scope.visiblityOption = 2
-            $scope.selectedvisiblityOption =  '1 day';
-            $scope.visiblityOption = 2
-            $scope.selectedvisiblityOptions =  '1 day';
-            $scope.selectedvisiblityOptions =  2;
+           
+          
             
             $scope.headerClicked = function ($index) {
                 $scope.checkButtons($scope.wikiArticles[$index].isOpen);
@@ -172,12 +146,12 @@ angular.module('bootangApp')
                 $scope.tabs[0].disable = false;
                 $scope.tabs[1].disable = false;
                 $scope.tabs[2].disable = false;
-                $scope.tabs[0].label = 'label label-info';
-                $scope.tabs[1].label = 'label label-info';
-                $scope.tabs[2].label = 'label label-info';
+                $scope.tabs[0].label = 'label label-primary';
+                $scope.tabs[1].label = 'label label-primary';
+                $scope.tabs[2].label = 'label label-primary';
                 
             };
-            $scope.deactivateFeatureTabs = function(){ $scope.tabs[0].title = '';
+            $scope.deactivateFeatureTabs = function(){ 
                 $scope.tabs[0].disable = true;
                 $scope.tabs[1].disable = true;
                 $scope.tabs[2].disable = true;
@@ -187,11 +161,11 @@ angular.module('bootangApp')
                 
             };
              $scope.selectMe = function(tabNumber){ 
-                $scope.tabs[tabNumber].label = 'label label-primary';
+                $scope.tabs[tabNumber].label = 'label label-info';
                 for(var i = 0; i < $scope.tabs.length; i++){
                     if(i!==tabNumber){
                         if($scope.tabs[i].disable==false){
-                         $scope.tabs[i].label = 'label label-info';
+                           $scope.tabs[i].label = 'label label-primary';
                      }else{
                          $scope.tabs[i].label = 'label label-default';
 
@@ -243,7 +217,7 @@ angular.module('bootangApp')
                     $scope.status.collapseAllButtonHidden = true;
                     $scope.status.expandAllButtonHidden = true;
                     $scope.deactivateFeatureTabs();
-                     $cope.tabs[3].resultAsText = '';
+                    $scope.tabs[3].resultAsText = '';
                 }
 
             };

@@ -31,16 +31,22 @@
          <span ng-class="tabs[1].label">{{tabs[1].title}}</span>
       </tab-heading>
       <p></p>
+      <div class="form-group">
       <div class="row">
          <div class="col-xs-6">
-            Message will be available for: :
+            <label>Message will be available for:</label>
             <select class="form-control" ng-model="selections[0]" ng-options="i.id as i.message for i in vos">"></select>
          </div>
          <div class="col-xs-6">
-            Message may be read following number of times: 
-            <select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+            <label>The number of times message may be read:</label> 
+            <select class="form-control" ng-model="selections[1]" ng-options="i.id as i.message for i in anors"></select>
          </div>
       </div>
+          </div>
+     <div class="form-group">
+           <label>Message:</label>
+           <textarea class="form-control" rows="10" ></textarea>
+     </div>
    </tab>
    <tab disable=tabs[2].disable select="selectMe(2)">
       <tab-heading >
