@@ -19,14 +19,14 @@
 <!--<div class="bg-info">-->
 <div class="container-fluid" ng-controller="MainCtrl">
 <tabset>
-   <tab disable=tabs[0].disable select="selectMe(0)">
+   <tab disabled=tabs[0].disable select="selectMe(0)">
       <tab-heading >
          <span ng-class="tabs[0].label">{{tabs[0].title}}{{tabs[0].resultAsText}}</span>
       </tab-heading>
       <p></p>
       I've got an HTML heading, and a select callback. Pretty cool!
    </tab>
-   <tab disable=tabs[1].disable select="selectMe(1)">
+   <tab disabled=tabs[1].disable select="selectMe(1)">
       <tab-heading >
          <span ng-class="tabs[1].label">{{tabs[1].title}}</span>
       </tab-heading>
@@ -35,27 +35,35 @@
       <div class="row">
          <div class="col-xs-6">
             <label>Message will be available for:</label>
-            <select class="form-control" ng-model="selections[0]" ng-options="i.id as i.message for i in vos">"></select>
+            <select class="form-control" ng-model="inputSelections.vosselected" ng-options="i.id as i.message for i in vos">"></select>
          </div>
          <div class="col-xs-6">
             <label>The number of times message may be read:</label> 
-            <select class="form-control" ng-model="selections[1]" ng-options="i.id as i.message for i in anors"></select>
+            <select class="form-control" ng-model="inputSelections.anorselected" ng-options="i.id as i.message for i in anors"></select>
          </div>
       </div>
-          </div>
-     <div class="form-group">
-           <label>Message:</label>
-           <textarea class="form-control" rows="10" ></textarea>
+               <p ng-if="valide()"></p>
      </div>
+      <hr>
+     <div class="form-group">
+           <label>Message title:</label>
+           <input class="form-control" placeholder="Please write the title of the message here..."  ng-model="messageForm.title" ng-keyup="messageInputChanged()"></input>
+           <hr>
+           <label>Message text:</label>
+           <textarea class="form-control" placeholder="Please write the message text here..." ng-model="messageForm.content" ng-keyup="messageInputChanged()" rows="10" ></textarea>
+           <hr>
+           <button type="button"  ng-disabled="sendButton.disable"  ng-class="sendButton.class" ng-click="messageSend()">Leave message</button>
+            
+    </div>
    </tab>
-   <tab disable=tabs[2].disable select="selectMe(2)">
+   <tab disabled=tabs[2].disable select="selectMe(2)">
       <tab-heading >
          <span ng-class="tabs[2].label">{{tabs[2].title}}</span>
       </tab-heading>
       <p></p>
       I've got an HTML heading, and a select callback. Pretty cool!
    </tab>
-   <tab active="true" disable=tabs[3].disable select="selectMe(3)">
+   <tab active="true" disabled=tabs[3].disable select="selectMe(3)">
       <tab-heading >
          <span ng-class="tabs[3].label">{{tabs[3].title}}{{tabs[3].resultAsText}}</span>
       </tab-heading>

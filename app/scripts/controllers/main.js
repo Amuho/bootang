@@ -8,7 +8,7 @@
  * Controller of the bootangApp
  */
 angular.module('bootangApp')
-        .controller('MainCtrl', function ($scope, $http, $sce, $modal) {
+        .controller('MainCtrl', function ($scope, $http, $sce, $modal, $base64) {
             console.log('loaded.....');
             this.awesomeThings = [
                 'HTML5 Boilerplate',
@@ -16,17 +16,41 @@ angular.module('bootangApp')
                 'Karma'
             ];
             $scope.selections = [ '3', '0' ];
-           
+            $scope.basetest64 = $base64.encode('test');
+            $scope.inputSelections = {
+                'vosselected': '3',
+                'anorselected': '0'
+
+                
+            };
 
             $scope.wikiArticles = [];
             $scope.items = [[ 'This article has been already added!',   'Sorry, certain wiki aricle should not be repeated to generate password or exchange messages' ]];
             $scope.tabs = [{'id': 'readMessages',  'title': 'Read messages', 'label': 'label label-default', 'disable': true, 'resultAsText':'' }, 
-                           {'id': 'leaveMessage',  'title': 'Leave Message', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },
-                           {'id': 'generatePassword',  'title': 'Generate password', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },  
+//                           {'id': 'leaveMessage',  'title': 'Leave Message', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },
+                             {'id': 'leaveMessage',  'title': 'Leave Message', 'label': 'label label-info', 'disable': false, 'resultAsText':'' },
+//                           {'id': 'generatePassword',  'title': 'Generate password', 'label': 'label label-default', 'disable': true, 'resultAsText':'' },  
+                              {'id': 'generatePassword',  'title': 'Generate password', 'label': 'label label-info', 'disable': false, 'resultAsText':'' },  
                            {'id': 'wikiArticleSelection',  'title': 'Wiki article(s)', 'label': 'label label-info', 'disable': false, 'resultAsText':'' }
                           ];
+
+            $scope.sendButton = {
+                'class': 'btn btn-default',
+                'disable': true
+
+            };
             
-          
+            $scope.sendButtonArray = [
+                 'btn btn-default',
+                 true
+            ];
+            
+            $scope.messageForm = {
+                'title': '',
+                'content': ''
+
+            };
+
             
             $scope.vos = [
                 {'id': '0', 'message':'4 weeks', 'minutes': 40320},//0
@@ -40,16 +64,50 @@ angular.module('bootangApp')
             ];
             //allowed number of reads
             $scope.anors = [
-                {'id': '0', 'message':'Unlimited number of times', 'minutes': 0},//0
-                {'id': '1', 'message':'10 times', 'minutes': 10},//1
-                {'id': '2', 'message':'2 times', 'minutes': 2},//2
-                {'id': '3', 'message':'1 time', 'minutes': 1}//3
+                {'id': '0', 'message':'Unlimited number of times', 'allowedreadsnumber': 0},//0
+                {'id': '1', 'message':'10 times', 'allowedreadsnumber': 10},//1
+                {'id': '2', 'message':'2 times', 'allowedreadsnumber': 2},//2
+                {'id': '3', 'message':'1 time', 'allowedreadsnumber': 1}//3
             ];
            
-          
+            $scope.valide = function () {
+                 $scope.messageSend();
+                return true;
+            };
             
             $scope.headerClicked = function ($index) {
                 $scope.checkButtons($scope.wikiArticles[$index].isOpen);
+            };
+            
+            $scope.messageSend = function () {
+                  console.log(' $scope.inputSelections.vosselected ' + $scope.inputSelections.vosselected);
+                  console.log(' $scope.inputSelections.anorselected ' + $scope.inputSelections.anorselected);
+                  var validityminutes = $scope.vos[$scope.inputSelections.vosselected].minutes;
+                  var allowedreadsnumber = $scope.anors[$scope.inputSelections.anorselected].allowedreadsnumber;
+                   console.log('   validityminutes: ' + validityminutes);
+                   console.log('allowedreadsnumber: ' + allowedreadsnumber);
+                   console.log('     messageForm.title : ' + $scope.messageForm.title);
+                   console.log('   messageForm.content : ' + $scope.messageForm.content);
+                   console.log('Ratio               test : ' + Ratio.parse( 12.12121212121212 ).simplify().toString());
+                   console.log('CryptoUtil          test : ' + CryptoUtil.binb2hex(CryptoUtil.str2binb("test")));
+                   var result  = CryptoUtil.str2binb("test");
+                   console.log('CryptoUtil   test length : ' + result.length);
+                   console.log('SHA512   test  : ' + SHA512('test'));
+                   console.log('base64   test  : ' +  $scope.basetest64);
+                   console.log('keccak_512   test  : ' +  keccak_512('test'));
+
+            };
+            
+            $scope.messageInputChanged = function () {
+                if( $scope.sendButton.disable===true && $scope.messageForm.title.length>0 && $scope.messageForm.content.length>0){
+                    $scope.sendButton.disable = false;
+//                     $scope.sendButtonArray[1] = false;
+                    $scope.sendButton.class = 'btn btn-info';
+                }else if( $scope.sendButton.disable===false && ( $scope.messageForm.title.length==0 || $scope.messageForm.content.length==0)){
+                    $scope.sendButton.disable = true;
+//                      $scope.sendButtonArray[1] = true;
+                    $scope.sendButton.class = 'btn btn-default';
+                }
             };
             
             $scope.refreshGroupAfterAddingNewArticle = function () {
